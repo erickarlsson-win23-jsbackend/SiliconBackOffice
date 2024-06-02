@@ -5,6 +5,7 @@ using SiliconBackOffice.Client.Pages;
 using SiliconBackOffice.Components;
 using SiliconBackOffice.Components.Account;
 using SiliconBackOffice.Data;
+using SiliconBackOffice.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,9 +32,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager()
     .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<RoleService>();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
