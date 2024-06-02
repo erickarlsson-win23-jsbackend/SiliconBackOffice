@@ -1,0 +1,18 @@
+﻿@page "/courses"
+@using SiliconBackOffice.Client.Components
+
+
+<h3>
+    <a href="/courses/create">Create new course</a>
+    or choose a course below to edit</h3>
+
+<section>
+    <CourseList />
+</section>
+
+
+
+@code {
+    [Parameter]
+    public string? courseId { get; set; }
+}

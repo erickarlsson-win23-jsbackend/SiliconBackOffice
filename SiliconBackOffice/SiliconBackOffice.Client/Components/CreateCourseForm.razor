@@ -1,0 +1,85 @@
+﻿@using SiliconBackOffice.Client.Models
+
+@* I nuläget saknas listor/array-attribut från course-modellen i formuläret. Saknas metod för att skapa kursen. *@
+
+<EditForm Model="course">
+    <DataAnnotationsValidator />
+
+    <div id="form-imageuri" class="input-group">
+        <label>Image URI</label>
+        <InputText @bind-Value="course.ImageUri" placeholder="Image URI" />
+        <ValidationMessage For="() => course.ImageUri" class="text-danger" />
+    </div>
+
+    <div id="form-imageheaderuri" class="input-group">
+        <label>Image Header URI</label>
+        <InputText @bind-Value="course.ImageHeaderUri" placeholder="Image Header URI" />
+        <ValidationMessage For="() => course.ImageHeaderUri" class="text-danger" />
+    </div>
+
+    <div id="form-isbestseller" class="input-group">
+        <label>Is Bestseller</label>
+        <InputCheckbox @bind-Value="course.IsBestseller" />
+        <ValidationMessage For="() => course.IsBestseller" class="text-danger" />
+    </div>
+
+    <div id="form-isdigital" class="input-group">
+        <label>Is Digital</label>
+        <InputCheckbox @bind-Value="course.IsDigital" />
+        <ValidationMessage For="() => course.IsDigital" class="text-danger" />
+    </div>
+    
+    <div id="form-title" class="input-group">
+        <label>Title</label>
+        <InputText @bind-Value="course.Title" placeholder="Title" />
+        <ValidationMessage For="() => course.Title" class="text-danger" />
+    </div>
+
+    <div id="form-ingress" class="input-group">
+        <label>Ingress</label>
+        <InputText @bind-Value="course.Ingress" placeholder="Ingress" />
+        <ValidationMessage For="() => course.Ingress" class="text-danger" />
+    </div>
+
+    <div id="form-starrating" class="input-group">
+        <label>Star Rating</label>
+        <InputNumber @bind-Value="course.StarRating" placeholder="Star Rating" />
+        <ValidationMessage For="() => course.StarRating" class="text-danger" />
+    </div>
+
+    <div id="form-reviews" class="input-group">
+        <label>Reviews</label>
+        <InputText @bind-Value="course.Reviews" placeholder="Reviews" />
+        <ValidationMessage For="() => course.Reviews" class="text-danger" />
+    </div>
+
+    <div id="form-likesinpercent" class="input-group">
+        <label>Likes in Percent</label>
+        <InputText @bind-Value="course.LikesInPercent" placeholder="Likes in Percent" />
+        <ValidationMessage For="() => course.LikesInPercent" class="text-danger" />
+    </div>
+
+    <div id="form-likes" class="input-group">
+        <label>Likes</label>
+        <InputText @bind-Value="course.Likes" placeholder="Likes" />
+        <ValidationMessage For="() => course.Likes" class="text-danger" />
+    </div>
+
+    <div id="form-hours" class="input-group">
+        <label>Hours</label>
+        <InputText @bind-Value="course.Hours" placeholder="Hours" />
+        <ValidationMessage For="() => course.Hours" class="text-danger" />
+    </div>
+ 
+
+    
+
+    <button type="submit">Create</button>
+</EditForm>
+
+
+@code {
+    private Course course = new Course();
+    
+}
+}

@@ -1,0 +1,13 @@
+﻿@page "/courses/{courseId}"
+@using SiliconBackOffice.Client.Components
+
+
+<section class="container">
+    <SingleCourse courseId="@courseId"/>
+</section>
+
+
+@code {
+    [Parameter]
+    public string? courseId { get; set; }
+}

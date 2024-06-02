@@ -1,0 +1,258 @@
+﻿@using SiliconBackOffice.Client.Models
+@inject HttpClient httpClient
+
+@* I nuläget får jag exceptions med mina listor/arrays i formuläret. Saknas metod för att spara kursen. *@
+
+<h3>Edit Course</h3>
+
+@if (course == null)
+{
+    <p>Loading course...</p>
+
+}
+
+else
+{
+
+    <EditForm EditContext="@editContext">
+        <DataAnnotationsValidator />
+
+        <div id="form-id" class="input-group">
+            <label>Id</label>
+            <InputText @bind-Value="course.Id" placeholder="@course.Id" />
+            <ValidationMessage For="() => course.Id" class="text-danger" />
+        </div>
+
+        <div id="form-imageuri" class="input-group">
+            <label>Image URI</label>
+            <InputText @bind-Value="course.ImageUri" placeholder="@course.ImageUri" />
+            <ValidationMessage For="() => course.ImageUri" class="text-danger" />
+        </div>
+
+        <div id="form-imageheaderuri" class="input-group">
+            <label>Image Header URI</label>
+            <InputText @bind-Value="course.ImageHeaderUri" placeholder="@course.ImageHeaderUri" />
+            <ValidationMessage For="() => course.ImageHeaderUri" class="text-danger" />
+        </div>
+
+        <div id="form-isbestseller" class="input-group">
+            <label>Is Bestseller</label>
+            <InputCheckbox @bind-Value="course.IsBestseller" />
+            <ValidationMessage For="() => course.IsBestseller" class="text-danger" />
+        </div>
+
+        <div id="form-isdigital" class="input-group">
+            <label>Is Digital</label>
+            <InputCheckbox @bind-Value="course.IsDigital" />
+            <ValidationMessage For="() => course.IsDigital" class="text-danger" />
+        </div>
+
+        @if (course.Categories != null && course.Categories.Length > 0)
+        {
+            @for (int i = 0; i < course.Categories.Length; i++)
+            {
+                <div id="form-category-@i" class="input-group">
+                    <label>Category @i</label>
+                    <InputText @bind-Value="course.Categories[i]" placeholder="@course.Categories[i]" />
+                    <ValidationMessage For="() => course.Categories[i]" class="text-danger" />
+                </div>
+            }
+        }
+        else
+        {
+            <div>No categories available.</div>
+        }
+
+        <div id="form-title" class="input-group">
+            <label>Title</label>
+            <InputText @bind-Value="course.Title" placeholder="@course.Title" />
+            <ValidationMessage For="() => course.Title" class="text-danger" />
+        </div>
+
+        <div id="form-ingress" class="input-group">
+            <label>Ingress</label>
+            <InputText @bind-Value="course.Ingress" placeholder="@course.Ingress" />
+            <ValidationMessage For="() => course.Ingress" class="text-danger" />
+        </div>
+
+        <div id="form-starrating" class="input-group">
+            <label>Star Rating</label>
+            <InputNumber @bind-Value="course.StarRating" placeholder="@course.StarRating.ToString()" />
+            <ValidationMessage For="() => course.StarRating" class="text-danger" />
+        </div>
+
+        <div id="form-reviews" class="input-group">
+            <label>Reviews</label>
+            <InputText @bind-Value="course.Reviews" placeholder="@course.Reviews" />
+            <ValidationMessage For="() => course.Reviews" class="text-danger" />
+        </div>
+
+        <div id="form-likesinpercent" class="input-group">
+            <label>Likes in Percent</label>
+            <InputText @bind-Value="course.LikesInPercent" placeholder="@course.LikesInPercent" />
+            <ValidationMessage For="() => course.LikesInPercent" class="text-danger" />
+        </div>
+
+        <div id="form-likes" class="input-group">
+            <label>Likes</label>
+            <InputText @bind-Value="course.Likes" placeholder="@course.Likes" />
+            <ValidationMessage For="() => course.Likes" class="text-danger" />
+        </div>
+
+        <div id="form-hours" class="input-group">
+            <label>Hours</label>
+            <InputText @bind-Value="course.Hours" placeholder="@course.Hours" />
+            <ValidationMessage For="() => course.Hours" class="text-danger" />
+        </div>
+
+        @* @if (course.Authors != null && course.Authors.Count > 0)
+        {
+            @for (int i = 0; i < course.Authors.Count; i++)
+            {
+                <div id="form-author-@i" class="input-group">
+                    <label>Author @i</label>
+                    <InputText @bind-Value="course.Authors[i].Name" placeholder="@course.Authors[i].Name" />
+                    <ValidationMessage For="() => course.Authors[i].Name" class="text-danger" />
+                </div>
+            }
+        }
+        else
+        {
+            <div>No authors available.</div>
+        } *@
+
+        @if (course.Prices != null)
+        {
+            <div id="form-prices-currency" class="input-group">
+                <label>Currency</label>
+                <InputText @bind-Value="course.Prices.Currency" placeholder="@course.Prices.Currency" />
+                <ValidationMessage For="() => course.Prices.Currency" class="text-danger" />
+            </div>
+            <div id="form-prices-price" class="input-group">
+                <label>Price</label>
+                <InputNumber @bind-Value="course.Prices.Price" placeholder="@course.Prices.Price.ToString()" />
+                <ValidationMessage For="() => course.Prices.Price" class="text-danger" />
+            </div>
+            <div id="form-prices-discount" class="input-group">
+                <label>Discount</label>
+                <InputNumber @bind-Value="course.Prices.Discount" placeholder="@course.Prices.Discount.ToString()" />
+                <ValidationMessage For="() => course.Prices.Discount" class="text-danger" />
+            </div>
+        }
+
+        @* @if (course.Content != null)
+        {
+            <div id="form-content-description" class="input-group">
+                <label>Content Description</label>
+                <InputText @bind-Value="course.Content.Description" placeholder="@course.Content.Description" />
+                <ValidationMessage For="() => course.Content.Description" class="text-danger" />
+            </div>
+
+            @if (course.Content != null)
+            {
+                <div id="form-description" class="input-group">
+                    <label>Description</label>
+                    <InputText @bind-Value="course.Content.Description" placeholder="@course.Content.Description" />
+                    <ValidationMessage For="() => course.Content.Description" class="text-danger" />
+                </div>
+
+                @if (course.Content.ProgramDetails != null && course.Content.ProgramDetails.Count > 0)
+                {
+                    @for (int i = 0; i < course.Content.ProgramDetails.Count; i++)
+                    {
+                        <div id="form-programdetail-@i" class="input-group">
+                            <label>Program Detail Title @i</label>
+                            <InputText @bind-Value="course.Content.ProgramDetails[i].Title" placeholder="@course.Content.ProgramDetails[i].Title" />
+                            <ValidationMessage For="() => course.Content.ProgramDetails[i].Title" class="text-danger" />
+
+                            <label>Program Detail Description @i</label>
+                            <InputText @bind-Value="course.Content.ProgramDetails[i].Description" placeholder="@course.Content.ProgramDetails[i].Description" />
+                            <ValidationMessage For="() => course.Content.ProgramDetails[i].Description" class="text-danger" />
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div>No program details available.</div>
+                }
+            }
+            else
+            {
+                <div>No content available.</div>
+            }
+        } *@
+
+        <button type="submit">Create</button>
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public string? courseId { get; set; }
+
+    private Course course = new Course();
+    private EditContext? editContext;
+    
+
+    protected override async Task OnInitializedAsync()
+    {
+        editContext = new EditContext(course);
+
+        var query = new GraphQLQuery { Query = $@"{{getCourseById(id: ""{courseId}"") {{id title authors {{name}} imageUri imageHeaderUri isBestseller isDigital categories ingress starRating reviews likesInPercent likes hours prices {{price discount currency}} content {{description includes programDetails {{id title description}}}}}}}}" };
+        var response = await httpClient.PostAsJsonAsync("https://courseprovider-ek.azurewebsites.net/api/graphql?", query);
+
+        if (response.IsSuccessStatusCode)
+        {
+
+            var result = await response.Content.ReadFromJsonAsync<DynamicGraphQLResponse>();
+            var courseJsonElement = result?.Data.GetProperty("getCourseById");
+
+            if (courseJsonElement.HasValue)
+            {
+
+                var jsonCourse = courseJsonElement.Value;
+                course = new Course
+                    {
+                        Id = jsonCourse.GetProperty("id").GetString(),
+                        Title = jsonCourse.GetProperty("title").GetString(),
+                        Authors = jsonCourse.GetProperty("authors").EnumerateArray().Select(author => new Author
+                        {
+                            Name = author.GetProperty("name").GetString()
+                        }).ToList() ?? new List<Author>(),
+                        ImageUri = jsonCourse.GetProperty("imageUri").GetString(),
+                        ImageHeaderUri = jsonCourse.GetProperty("imageHeaderUri").GetString(),
+                        IsBestseller = jsonCourse.GetProperty("isBestseller").GetBoolean(),
+                        IsDigital = jsonCourse.GetProperty("isDigital").GetBoolean(),
+                        Categories = jsonCourse.GetProperty("categories").EnumerateArray().Select(category => category.GetString()).ToArray(),
+                        Ingress = jsonCourse.GetProperty("ingress").GetString(),
+                        StarRating = jsonCourse.GetProperty("starRating").GetDecimal(),
+                        Reviews = jsonCourse.GetProperty("reviews").GetString(),
+                        LikesInPercent = jsonCourse.GetProperty("likesInPercent").GetString(),
+                        Likes = jsonCourse.GetProperty("likes").GetString(),
+                        Hours = jsonCourse.GetProperty("hours").GetString(),
+                        Prices = new Prices
+                        {
+                            Price = jsonCourse.GetProperty("prices").GetProperty("price").GetDecimal(),
+                            Discount = jsonCourse.GetProperty("prices").GetProperty("discount").GetDecimal(),
+                            Currency = jsonCourse.GetProperty("prices").GetProperty("currency").GetString()
+                        },
+                        Content = new Content
+                        {
+                            Description = jsonCourse.GetProperty("content").GetProperty("description").GetString(),
+                            Includes = jsonCourse.GetProperty("content").GetProperty("includes").EnumerateArray().Select(include => include.GetString()).ToArray() ?? new string[0],
+                            ProgramDetails = jsonCourse.GetProperty("content").GetProperty("programDetails").EnumerateArray().Select(programDetail => new ProgramDetailItem
+                            {
+                                Id = programDetail.GetProperty("id").GetInt32(),
+                                Title = programDetail.GetProperty("title").GetString(),
+                                Description = programDetail.GetProperty("description").GetString()
+                            }).ToList() ?? new List<ProgramDetailItem>()
+                        }
+                    };
+
+                
+            }
+        }
+    }
+
+}
+

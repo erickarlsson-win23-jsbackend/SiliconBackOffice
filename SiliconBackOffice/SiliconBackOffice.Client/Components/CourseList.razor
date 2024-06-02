@@ -1,0 +1,49 @@
+﻿@using SiliconBackOffice.Client.Models
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+@if (courses == null)
+{
+    <p>Loading courses...</p>
+
+}
+else
+{
+    foreach (var course in courses)
+    {
+        <div class="course-list">
+            <a class="course-button" href="/courses/@course.Id">@course.Title</a>
+
+        </div>
+    }
+}
+
+
+@code {
+    private new List<Course>? courses;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var query = new GraphQLQuery { Query = "{getAllCourses {id title }}" };
+        var response = await httpClient.PostAsJsonAsync("https://courseprovider-ek.azurewebsites.net/api/graphql?", query);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadFromJsonAsync<DynamicGraphQLResponse>();
+            courses = result?.Data.GetProperty("getAllCourses").EnumerateArray()
+                .Select(course => new Course
+                    {
+                        Id = course.GetProperty("id").GetString(),
+                        Title = course.GetProperty("title").GetString(),
+                        
+                    })
+                .ToList();
+
+        }
+    }
+
+ 
+
+}
